@@ -24,6 +24,9 @@
         "dev": "pnpm build && concurrently --kill-others --names package,laravel,vite \"pnpm dev:package\" \"composer --working-dir=playground run dev\" \"pnpm --dir playground dev\"",
         "dev:package": "vp pack --watch --no-clean",
         "build:playground": "pnpm build && pnpm --dir playground build",
+        "docs:dev": "pnpm --dir docs dev",
+        "docs:build": "pnpm --dir docs build",
+        "docs:preview": "pnpm --dir docs preview",
         "typecheck": "vue-tsc --noEmit",
         "typecheck:playground": "pnpm --dir playground typecheck"
     },
@@ -46,6 +49,7 @@
         "react": "^19.3.1",
         "typescript": "~5.9.3",
         "unplugin-vue": "^8.0.1",
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
         "vite-plus": "1.6.0",
         "vue": "^3.5.45",
         "vue-tsc": "^3.3.14"

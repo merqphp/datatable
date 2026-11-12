@@ -2,6 +2,8 @@
 node_modules/
 /.vite/
 /.vite-plus/
+/docs/.vitepress/cache/
+/docs/.vitepress/dist/
 /composer.lock
 /.phpunit.cache/
 /.phpunit.result.cache

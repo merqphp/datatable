@@ -10,4 +10,5 @@
 /tsconfig.json export-ignore
 /vite.config.ts export-ignore
 /playground export-ignore
+/docs export-ignore
 /pnpm-workspace.yaml export-ignore
