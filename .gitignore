@@ -1,5 +1,6 @@
 /vendor/
 node_modules/
+/dist/
 /.vite/
 /.vite-plus/
 /docs/.vitepress/cache/
