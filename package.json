@@ -1,0 +1,49 @@
+{
+    "name": "@merq/datatable",
+    "private": true,
+    "description": "Headless tables for Laravel and Inertia.",
+    "type": "module",
+    "license": "MIT",
+    "sideEffects": false,
+    "packageManager": "pnpm@10.32.1",
+    "engines": {
+        "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+    },
+    "exports": {
+        "./react": {
+            "types": "./dist/react/index.d.ts",
+            "import": "./dist/react/index.js"
+        },
+        "./vue": {
+            "types": "./dist/vue/index.d.ts",
+            "import": "./dist/vue/index.js"
+        }
+    },
+    "scripts": {
+        "build": "vp pack",
+        "dev": "vp pack --watch",
+        "typecheck": "vue-tsc --noEmit"
+    },
+    "peerDependencies": {
+        "react": "^19.0.0",
+        "vue": "^3.5.0"
+    },
+    "peerDependenciesMeta": {
+        "react": {
+            "optional": true
+        },
+        "vue": {
+            "optional": true
+        }
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.0",
+        "@types/react": "^19.3.0",
+        "react": "^19.3.1",
+        "typescript": "~5.9.3",
+        "unplugin-vue": "^8.0.1",
+        "vite-plus": "^1.6.0",
+        "vue": "^3.5.45",
+        "vue-tsc": "^3.3.14"
+    }
+}

@@ -1,4 +1,7 @@
 /vendor/
+node_modules/
+/.vite/
+/.vite-plus/
 /composer.lock
 /.phpunit.cache/
 /.phpunit.result.cache

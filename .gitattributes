@@ -5,3 +5,6 @@
 /.gitignore export-ignore
 /phpunit.xml export-ignore
 /tests export-ignore
+/pnpm-lock.yaml export-ignore
+/tsconfig.json export-ignore
+/vite.config.ts export-ignore
