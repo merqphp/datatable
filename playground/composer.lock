@@ -2116,11 +2116,12 @@
             "dist": {
                 "type": "path",
                 "url": "..",
-                "reference": "2dcec028e87da534c1ab3e4c523e6c0459d505c4"
+                "reference": "b53044967e7d4167ef9f2023fba95bf3dbbee6d8"
             },
             "require": {
                 "illuminate/database": "^12.0 || ^13.0",
                 "illuminate/support": "^12.0 || ^13.0",
+                "inertiajs/inertia-laravel": "^3.0",
                 "php": "^8.3"
             },
             "require-dev": {
