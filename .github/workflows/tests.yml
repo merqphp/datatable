@@ -1,0 +1,83 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Package and playground
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: dom, fileinfo, mbstring, pdo_sqlite, sockets
+          tools: composer:v2
+          coverage: none
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          cache: true
+
+      - name: Validate Composer manifests
+        run: |
+          composer validate --strict
+          composer --working-dir=playground validate --strict
+
+      - name: Install PHP dependencies
+        run: |
+          composer install --no-interaction --prefer-dist --no-progress
+          composer --working-dir=playground install --no-interaction --prefer-dist --no-progress
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install browser and system dependencies
+        run: pnpm --dir playground exec playwright install --with-deps chromium
+
+      - name: Build package and playground
+        run: pnpm build:playground
+
+      - name: Check TypeScript
+        run: |
+          pnpm typecheck
+          pnpm typecheck:playground
+
+      - name: Run package tests
+        run: composer test:package
+
+      - name: Run playground tests
+        run: composer --working-dir=playground test
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-diagnostics
+          path: |
+            playground/tests/Browser/Screenshots/
+            playground/tests/Browser/Traces/
+            playground/storage/logs/
+          if-no-files-found: ignore
+          retention-days: 7
