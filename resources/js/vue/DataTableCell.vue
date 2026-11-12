@@ -1,12 +1,14 @@
 <template>
   <Primitive :ref="forwardRef" :as="as" :as-child="asChild">
-    <slot :cell="cell">{{ formatCellValue(cell.value) }}</slot>
+    <slot :cell="cell">
+      <DataTableCellContent :cell="cell" />
+    </slot>
   </Primitive>
 </template>
 
 <script setup lang="ts">
 import { Primitive, useForwardExpose } from 'reka-ui'
-import { formatCellValue } from '../shared/text'
+import DataTableCellContent from './DataTableCellContent.vue'
 import type { DataTableCellProps } from './types'
 
 withDefaults(defineProps<DataTableCellProps>(), {

@@ -5,7 +5,7 @@
 <script setup lang="ts" generic="ResourceValue = unknown">
 import { tableFeatures, useTable } from '@tanstack/vue-table'
 import { computed } from 'vue'
-import type { DataTableRowValue } from '../shared'
+import type { DataTableCellValue, DataTableRowValue } from '../shared'
 import { provideDataTableContext } from './context'
 import type { DataTableRootProps, DataTableRootSlotProps } from './types'
 
@@ -31,7 +31,7 @@ const table = useTable<typeof features, DataTableRowValue<ResourceValue>>({
     props.table.columns.map((column) => ({
       id: column.id,
       accessorFn: (row: DataTableRowValue<ResourceValue>) =>
-        row.cells.find((cell) => cell.column === column.id)?.value,
+        row.cells.find((cell) => cell.column === column.id),
     })),
   ),
   data: computed(() => props.table.rows),
@@ -62,9 +62,6 @@ provideDataTableContext({
     table
       .getRow(String(key))
       .getAllCells()
-      .map((cell) => ({
-        column: cell.column.id,
-        value: cell.getValue(),
-      })),
+      .map((cell) => cell.getValue<DataTableCellValue>()),
 })
 </script>

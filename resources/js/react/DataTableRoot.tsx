@@ -1,6 +1,6 @@
 import { tableFeatures, useTable } from '@tanstack/react-table'
 import { useMemo } from 'react'
-import type { DataTableRowValue } from '../shared'
+import type { DataTableCellValue, DataTableRowValue } from '../shared'
 import { DataTableContext } from './context'
 import type { DataTableRootProps } from './types'
 
@@ -24,7 +24,7 @@ export function DataTableRoot<ResourceValue = unknown>({
       value.columns.map((column) => ({
         id: column.id,
         accessorFn: (row: DataTableRowValue<ResourceValue>) =>
-          row.cells.find((cell) => cell.column === column.id)?.value,
+          row.cells.find((cell) => cell.column === column.id),
       })),
     [value.columns],
   )
@@ -64,10 +64,7 @@ export function DataTableRoot<ResourceValue = unknown>({
           table
             .getRow(String(key))
             .getAllCells()
-            .map((cell) => ({
-              column: cell.column.id,
-              value: cell.getValue(),
-            })),
+            .map((cell) => cell.getValue<DataTableCellValue>()),
       }}
     >
       {typeof children === 'function' ? children({ columns, rows }) : children}

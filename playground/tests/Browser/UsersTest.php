@@ -11,6 +11,7 @@ it('renders shared backend data and refreshes it through Inertia', function (str
     $page = visit("/{$frontend}/users")
         ->assertSee('Ada Lovelace')
         ->assertSee('ada@example.com')
+        ->assertAttribute('tbody > tr > td > a', 'href', 'mailto:ada@example.com')
         ->assertDontSee('Grace Hopper');
 
     User::factory()->create([
@@ -23,6 +24,7 @@ it('renders shared backend data and refreshes it through Inertia', function (str
     $page->click('Reload users')
         ->assertSee('Ada Lovelace')
         ->assertSee('ada.lovelace@example.com')
+        ->assertAttribute('tbody tr:first-child a', 'href', 'mailto:ada.lovelace@example.com')
         ->assertDontSee('ada@example.com')
         ->assertSee('Grace Hopper')
         ->assertSee('grace@example.com')

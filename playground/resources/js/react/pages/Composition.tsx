@@ -1,4 +1,10 @@
-import { DataTableCell, DataTableHeading, DataTableRoot, DataTableRow } from '@merq/datatable/react'
+import {
+  DataTableCell,
+  DataTableCellContent,
+  DataTableHeading,
+  DataTableRoot,
+  DataTableRow,
+} from '@merq/datatable/react'
 import { useRef, useState, type ComponentProps } from 'react'
 import { compositionTable } from '../../composition'
 
@@ -70,7 +76,11 @@ export default function Composition() {
                       />
                     }
                   >
-                    {({ cell }) => <strong>{String(cell.value)}</strong>}
+                    {({ cell }) => (
+                      <strong>
+                        <DataTableCellContent cell={cell} />
+                      </strong>
+                    )}
                   </DataTableCell>
                 )}
               </DataTableRow>

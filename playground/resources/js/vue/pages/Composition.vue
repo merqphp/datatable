@@ -32,7 +32,7 @@
               v-slot="{ cell }"
             >
               <td ref="childRef" data-composed="cell" class="font-medium" @click="childClicks++">
-                <strong>{{ cell.value }}</strong>
+                <strong><DataTableCellContent :cell="cell" /></strong>
               </td>
             </DataTableCell>
           </DataTableRow>
@@ -52,7 +52,13 @@
 </template>
 
 <script setup lang="ts">
-import { DataTableCell, DataTableHeading, DataTableRoot, DataTableRow } from '@merq/datatable/vue'
+import {
+  DataTableCell,
+  DataTableCellContent,
+  DataTableHeading,
+  DataTableRoot,
+  DataTableRow,
+} from '@merq/datatable/vue'
 import { h, ref, useTemplateRef, type FunctionalComponent, type HTMLAttributes } from 'vue'
 import { compositionTable } from '../../composition'
 

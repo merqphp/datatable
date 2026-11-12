@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
+use Merq\DataTable\Column;
 use Merq\DataTable\ColumnCollection;
 use Merq\DataTable\Columns\Text;
 use Merq\DataTable\Table;
@@ -46,17 +47,17 @@ it('builds text columns and rows only when Inertia resolves the table', function
         ->assertOk()
         ->assertJsonPath('props.customers', [
             'columns' => [
-                ['id' => 'name', 'title' => 'Name', 'type' => 'text'],
-                ['id' => 'email', 'title' => 'E-mail', 'type' => 'text'],
-                ['id' => 'initial', 'title' => 'Initial', 'type' => 'text'],
+                ['id' => 'name', 'title' => 'Name'],
+                ['id' => 'email', 'title' => 'E-mail'],
+                ['id' => 'initial', 'title' => 'Initial'],
             ],
             'rows' => [
                 [
                     'key' => 42,
                     'cells' => [
-                        ['column' => 'name', 'value' => 'Ada Lovelace'],
-                        ['column' => 'email', 'value' => 'ada@example.com'],
-                        ['column' => 'initial', 'value' => 'A'],
+                        ['column' => 'name', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => 'Ada Lovelace']],
+                        ['column' => 'email', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => 'ada@example.com']],
+                        ['column' => 'initial', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => 'A']],
                     ],
                 ],
             ],
@@ -80,17 +81,17 @@ it('builds a class-defined table with additional and modified columns', function
         ->assertOk()
         ->assertJsonPath('props.customers', [
             'columns' => [
-                ['id' => 'id', 'title' => 'ID', 'type' => 'text'],
-                ['id' => 'name', 'title' => 'Name', 'type' => 'text'],
-                ['id' => 'email', 'title' => 'E-mail', 'type' => 'text'],
+                ['id' => 'id', 'title' => 'ID'],
+                ['id' => 'name', 'title' => 'Name'],
+                ['id' => 'email', 'title' => 'E-mail'],
             ],
             'rows' => [
                 [
                     'key' => 7,
                     'cells' => [
-                        ['column' => 'id', 'value' => 7],
-                        ['column' => 'name', 'value' => 'Grace Hopper'],
-                        ['column' => 'email', 'value' => null],
+                        ['column' => 'id', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => 7]],
+                        ['column' => 'name', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => 'Grace Hopper']],
+                        ['column' => 'email', 'component' => 'DataTable::Columns/Text', 'props' => ['value' => null]],
                     ],
                 ],
             ],
@@ -106,7 +107,7 @@ it('keeps the column definitions when the source is empty', function () {
         ->assertOk()
         ->assertJsonPath('props.customers', [
             'columns' => [
-                ['id' => 'col-01-name', 'title' => 'Name', 'type' => 'text'],
+                ['id' => 'col-01-name', 'title' => 'Name'],
             ],
             'rows' => [],
         ]);
@@ -130,4 +131,72 @@ it('does not query the source when a partial reload excludes the table', functio
         ->assertJsonMissingPath('props.customers');
 
     expect(DB::getQueryLog())->toBeEmpty();
+});
+
+it('builds custom component props from the resolved value and resource', function () {
+    Customer::query()->insert(['id' => 42, 'name' => 'Ada Lovelace']);
+
+    $column = new class('Profile', 'name') extends Column
+    {
+        /**
+         * Retrieve the consumer component name.
+         */
+        public function component(): string
+        {
+            return 'App::Columns/Profile';
+        }
+
+        /**
+         * Build the profile link from the value and resource.
+         */
+        public function toView(mixed $value, mixed $resource): array
+        {
+            return ['label' => $value, 'href' => '/customers/'.$resource->getKey()];
+        }
+    };
+
+    Route::get('/customers', fn () => Inertia::render('Customers/Index', [
+        'customers' => Table::make(Customer::query())->withColumns([$column->name('profile')]),
+    ]));
+
+    $this->get('/customers', ['X-Inertia' => 'true'])
+        ->assertOk()
+        ->assertJsonPath('props.customers.rows.0.cells.0', [
+            'column' => 'profile',
+            'component' => 'App::Columns/Profile',
+            'props' => ['label' => 'Ada Lovelace', 'href' => '/customers/42'],
+        ]);
+});
+
+it('serializes empty component props as an object', function () {
+    Customer::query()->insert(['id' => 42, 'name' => 'Ada Lovelace']);
+
+    $column = new class('Actions') extends Column
+    {
+        /**
+         * Retrieve the consumer component name.
+         */
+        public function component(): string
+        {
+            return 'App::Columns/Actions';
+        }
+
+        /**
+         * Define a component without props.
+         */
+        public function toView(mixed $value, mixed $resource): array
+        {
+            return [];
+        }
+    };
+
+    Route::get('/customers', fn () => Inertia::render('Customers/Index', [
+        'customers' => Table::make(Customer::query())->withColumns([$column]),
+    ]));
+
+    $response = $this->get('/customers', ['X-Inertia' => 'true'])->assertOk();
+    $cell = json_decode($response->getContent())->props->customers->rows[0]->cells[0];
+
+    expect($cell->props)->toBeInstanceOf(stdClass::class)
+        ->and((array) $cell->props)->toBeEmpty();
 });

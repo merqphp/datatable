@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Tables\Columns\Email;
 use Inertia\Inertia;
 use Inertia\Response;
 use Merq\DataTable\Columns\Text;
@@ -17,7 +18,7 @@ class UsersController extends Controller
         return Inertia::render('Users', [
             'users' => Table::make($users)->withColumns([
                 Text::make('Name')->name('name'),
-                Text::make('Email')->name('email'),
+                Email::make('Email')->name('email'),
             ]),
         ]);
     }

@@ -11,11 +11,6 @@ export interface DataTableColumnValue {
    * Display title of the column.
    */
   title: string
-
-  /**
-   * Type of the column, such as text.
-   */
-  type: string
 }
 
 /**
@@ -28,9 +23,14 @@ export interface DataTableCellValue {
   column: string
 
   /**
-   * Value resolved by the column.
+   * Name of the component registered by the consumer.
    */
-  value: unknown
+  component: string
+
+  /**
+   * Props passed to the registered component.
+   */
+  props: Record<string, unknown>
 }
 
 /**

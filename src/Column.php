@@ -74,9 +74,14 @@ abstract class Column
     }
 
     /**
-     * Retrieve the column type.
+     * Retrieve the name of the component used to render a cell.
      */
-    abstract public function getType(): string;
+    abstract public function component(): string;
+
+    /**
+     * Build the component props for a cell.
+     */
+    abstract public function toView(mixed $value, mixed $resource): array;
 
     /**
      * Resolve the attribute or callback, falling back to the title in snake case.
@@ -106,7 +111,6 @@ abstract class Column
         return [
             'id' => $id,
             'title' => $this->getTitle(),
-            'type' => $this->getType(),
         ];
     }
 
@@ -117,7 +121,8 @@ abstract class Column
     {
         return [
             'column' => $id,
-            'value' => $this->resolveValue($resource),
+            'component' => $this->component(),
+            'props' => (object) $this->toView($this->resolveValue($resource), $resource),
         ];
     }
 }

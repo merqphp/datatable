@@ -1,4 +1,5 @@
 import type { PrimitiveProps } from 'reka-ui'
+import type { Component } from 'vue'
 import type {
   DataTableCellValue,
   DataTableColumnValue,
@@ -7,6 +8,31 @@ import type {
 } from '../shared'
 
 export type { DataTableRootSlotProps, DataTableRowSlotProps } from '../shared'
+
+/**
+ * Consumer components indexed by the names sent by the backend.
+ */
+export type DataTableComponents = Readonly<Record<string, Component>>
+
+/**
+ * Components registered for a Vue application.
+ */
+export interface DataTablePluginOptions {
+  /**
+   * Cell components supplied by the consumer.
+   */
+  components: DataTableComponents
+}
+
+/**
+ * Cell whose registered component should be rendered.
+ */
+export interface DataTableCellContentProps {
+  /**
+   * Component name and props received from the backend.
+   */
+  cell: DataTableCellValue
+}
 
 /**
  * Data provided to the table root.

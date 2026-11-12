@@ -1,5 +1,5 @@
 import type { useRender } from '@base-ui/react/use-render'
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import type {
   DataTableCellValue,
   DataTableColumnValue,
@@ -8,6 +8,36 @@ import type {
   DataTableRowValue,
   DataTableValue,
 } from '../shared'
+
+/**
+ * Consumer components accepting props defined by their PHP columns.
+ */
+export type DataTableComponents = Readonly<Record<string, ComponentType<any>>>
+
+/**
+ * Components and descendants belonging to a registry.
+ */
+export interface DataTableProviderProps {
+  /**
+   * Cell components supplied by the consumer.
+   */
+  components: DataTableComponents
+
+  /**
+   * Application content using the registered components.
+   */
+  children: ReactNode
+}
+
+/**
+ * Cell whose registered component should be rendered.
+ */
+export interface DataTableCellContentProps {
+  /**
+   * Component name and props received from the backend.
+   */
+  cell: DataTableCellValue
+}
 
 /**
  * Data and content provided to the table root.
@@ -67,7 +97,7 @@ export interface DataTableCellProps extends Omit<useRender.ComponentProps<'td'>,
   cell: DataTableCellValue
 
   /**
-   * Custom cell content, falling back to its plain text value.
+   * Custom cell content, falling back to its registered component.
    */
   children?: ReactNode | ((props: { cell: DataTableCellValue }) => ReactNode)
 }
