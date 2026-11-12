@@ -1,3 +1,4 @@
+import type { PrimitiveProps } from 'reka-ui'
 import type {
   DataTableCellValue,
   DataTableColumnValue,
@@ -20,7 +21,7 @@ export interface DataTableRootProps<ResourceValue = unknown> {
 /**
  * Column represented by a heading.
  */
-export interface DataTableHeadingProps {
+export interface DataTableHeadingProps extends PrimitiveProps {
   /**
    * Column definition used to render the heading.
    */
@@ -30,7 +31,7 @@ export interface DataTableHeadingProps {
 /**
  * Row represented by a table row element.
  */
-export interface DataTableRowProps<ResourceValue = unknown> {
+export interface DataTableRowProps<ResourceValue = unknown> extends PrimitiveProps {
   /**
    * Row and its optional resource received from the backend.
    */
@@ -40,7 +41,7 @@ export interface DataTableRowProps<ResourceValue = unknown> {
 /**
  * Cell represented by a table cell element.
  */
-export interface DataTableCellProps {
+export interface DataTableCellProps extends PrimitiveProps {
   /**
    * Cell value received from the backend.
    */

@@ -1,4 +1,5 @@
-import type { ComponentProps, ReactNode } from 'react'
+import type { useRender } from '@base-ui/react/use-render'
+import type { ReactNode } from 'react'
 import type {
   DataTableCellValue,
   DataTableColumnValue,
@@ -24,9 +25,9 @@ export interface DataTableRootProps<ResourceValue = unknown> {
 }
 
 /**
- * Column definition and native heading attributes.
+ * Column definition, rendering options and native heading attributes.
  */
-export interface DataTableHeadingProps extends Omit<ComponentProps<'th'>, 'children'> {
+export interface DataTableHeadingProps extends Omit<useRender.ComponentProps<'th'>, 'children'> {
   /**
    * Column definition used to render the heading.
    */
@@ -39,10 +40,10 @@ export interface DataTableHeadingProps extends Omit<ComponentProps<'th'>, 'child
 }
 
 /**
- * Row data and native row attributes.
+ * Row data, rendering options and native row attributes.
  */
 export interface DataTableRowProps<ResourceValue = unknown> extends Omit<
-  ComponentProps<'tr'>,
+  useRender.ComponentProps<'tr'>,
   'children'
 > {
   /**
@@ -57,9 +58,9 @@ export interface DataTableRowProps<ResourceValue = unknown> extends Omit<
 }
 
 /**
- * Cell value and native cell attributes.
+ * Cell value, rendering options and native cell attributes.
  */
-export interface DataTableCellProps extends Omit<ComponentProps<'td'>, 'children'> {
+export interface DataTableCellProps extends Omit<useRender.ComponentProps<'td'>, 'children'> {
   /**
    * Cell value received from the backend.
    */

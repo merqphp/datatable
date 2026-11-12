@@ -7,6 +7,15 @@ Copyright (c) 2021 Tanner Linsley
 use-sync-external-store
 Copyright (c) Meta Platforms, Inc. and affiliates.
 
+@base-ui/react and @base-ui/utils
+Copyright (c) 2019 Material-UI SAS
+
+reka-ui
+Copyright (c) 2023 UnoVue <https://github.com/unovue>
+
+@vueuse/core and @vueuse/shared
+Copyright (c) 2019-PRESENT Anthony Fu<https://github.com/antfu>
+
 The packages above are included in the frontend build under the MIT License:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

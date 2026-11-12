@@ -17,6 +17,11 @@ export default defineConfig({
     outDir: 'dist',
     format: 'esm',
     platform: 'neutral',
+    inputOptions: {
+      resolve: {
+        mainFields: ['module', 'main'],
+      },
+    },
     target: 'es2022',
     clean: true,
     onSuccess: 'vp fmt dist --no-error-on-unmatched-pattern',
@@ -30,7 +35,7 @@ export default defineConfig({
       vue({ isProduction: true }),
     ],
     deps: {
-      alwaysBundle: [/^@tanstack\//],
+      alwaysBundle: [/^@tanstack\//, /^@base-ui\//, /^reka-ui(?:\/|$)/],
     },
   },
 })

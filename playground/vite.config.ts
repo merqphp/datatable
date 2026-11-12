@@ -12,8 +12,14 @@ export default defineConfig({
       input: ['resources/js/react/app.tsx', 'resources/js/vue/app.ts'],
       refresh: ['app/Http/**', 'resources/views/**', 'routes/**'],
     }),
-    react(),
+    react({ include: /\/react\/.*\.[jt]sx?$/ }),
     vue(),
+    {
+      // Avoid React refresh transforms in Vue SFCs until vitejs/vite-plugin-vue#798 is fixed.
+      name: 'disable-oxc-jsx-refresh',
+      enforce: 'post',
+      config: () => ({ oxc: { jsx: { refresh: false } } }),
+    },
   ],
   resolve: {
     alias: {
