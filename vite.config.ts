@@ -16,7 +16,7 @@ export default defineConfig({
         target: 'es2022',
         clean: true,
         dts: {
-            tsc: { vue: true },
+            vue: true,
         },
         plugins: [vue({ isProduction: true })],
         deps: {

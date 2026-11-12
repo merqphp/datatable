@@ -31,7 +31,22 @@
         }
     },
     "scripts": {
-        "test": "@php vendor/bin/pest"
+        "setup:playground": [
+            "@composer --working-dir=playground install",
+            "@composer --working-dir=playground run setup",
+            "pnpm install",
+            "pnpm --dir playground exec playwright install chromium",
+            "pnpm build:playground"
+        ],
+        "test": [
+            "@test:package",
+            "@test:browser"
+        ],
+        "test:package": "@php vendor/bin/pest",
+        "test:browser": [
+            "pnpm build:playground",
+            "@composer --working-dir=playground run test:browser"
+        ]
     },
     "config": {
         "allow-plugins": {

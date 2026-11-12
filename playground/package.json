@@ -1,0 +1,30 @@
+{
+    "name": "@merq/datatable-playground",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vp dev",
+        "build": "vp build",
+        "typecheck": "vue-tsc --noEmit"
+    },
+    "dependencies": {
+        "@inertiajs/react": "^3.11.0",
+        "@inertiajs/vue3": "^3.11.0",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "vue": "^3.5.45"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.0",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
+        "@vitejs/plugin-react": "^6.3.0",
+        "@vitejs/plugin-vue": "^6.0.11",
+        "laravel-vite-plugin": "^3.2.1",
+        "playwright": "^1.65.0",
+        "typescript": "~5.9.3",
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
+        "vite-plus": "1.6.0",
+        "vue-tsc": "^3.3.14"
+    }
+}

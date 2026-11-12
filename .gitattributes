@@ -8,3 +8,5 @@
 /pnpm-lock.yaml export-ignore
 /tsconfig.json export-ignore
 /vite.config.ts export-ignore
+/playground export-ignore
+/pnpm-workspace.yaml export-ignore

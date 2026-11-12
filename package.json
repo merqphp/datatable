@@ -21,8 +21,11 @@
     },
     "scripts": {
         "build": "vp pack",
-        "dev": "vp pack --watch",
-        "typecheck": "vue-tsc --noEmit"
+        "dev": "pnpm build && concurrently --kill-others --names package,laravel,vite \"pnpm dev:package\" \"composer --working-dir=playground run dev\" \"pnpm --dir playground dev\"",
+        "dev:package": "vp pack --watch --no-clean",
+        "build:playground": "pnpm build && pnpm --dir playground build",
+        "typecheck": "vue-tsc --noEmit",
+        "typecheck:playground": "pnpm --dir playground typecheck"
     },
     "peerDependencies": {
         "react": "^19.0.0",
@@ -39,10 +42,11 @@
     "devDependencies": {
         "@types/node": "^24.0.0",
         "@types/react": "^19.3.0",
+        "concurrently": "^10.0.7",
         "react": "^19.3.1",
         "typescript": "~5.9.3",
         "unplugin-vue": "^8.0.1",
-        "vite-plus": "^1.6.0",
+        "vite-plus": "1.6.0",
         "vue": "^3.5.45",
         "vue-tsc": "^3.3.14"
     }

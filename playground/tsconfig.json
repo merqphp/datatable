@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "jsx": "react-jsx",
+        "strict": true,
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "types": [
+            "vite-plus/client",
+            "node"
+        ],
+        "paths": {
+            "@merq/datatable/react": [
+                "./vendor/merq/datatable/dist/react/index.d.ts"
+            ],
+            "@merq/datatable/vue": [
+                "./vendor/merq/datatable/dist/vue/index.d.ts"
+            ]
+        }
+    },
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.vue",
+        "vite.config.ts"
+    ]
+}
