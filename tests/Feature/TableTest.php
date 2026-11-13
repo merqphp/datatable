@@ -31,7 +31,7 @@ it('builds text columns and rows only when Inertia resolves the table', function
 
     DB::enableQueryLog();
 
-    $table = Table::make(Customer::query())->withColumns([
+    $table = Table::make(Customer::query())->paginate(false)->withColumns([
         Text::make('Name')->name('name'),
         Text::make('E-mail', 'email')->name('email'),
         Text::make('Initial', fn (Customer $customer): string => mb_substr($customer->name, 0, 1))->name('initial'),
@@ -61,6 +61,7 @@ it('builds text columns and rows only when Inertia resolves the table', function
                     ],
                 ],
             ],
+            'pagination' => null,
         ]);
 
     expect(DB::getQueryLog())->toHaveCount(1);
@@ -70,6 +71,7 @@ it('builds a class-defined table with additional and modified columns', function
     Customer::query()->insert(['id' => 7, 'name' => 'Grace Hopper']);
 
     $table = CustomerTable::make()
+        ->paginate(false)
         ->withColumns(collect([Text::make('E-mail', 'email')->name('email')]))
         ->withColumns(fn (ColumnCollection $columns) => $columns
             ->prepend(Text::make('ID', 'id')->name('id'))
@@ -95,12 +97,13 @@ it('builds a class-defined table with additional and modified columns', function
                     ],
                 ],
             ],
+            'pagination' => null,
         ]);
 });
 
 it('keeps the column definitions when the source is empty', function () {
     Route::get('/customers', fn () => Inertia::render('Customers/Index', [
-        'customers' => Table::make(Customer::query())->withColumns([Text::make('Name')]),
+        'customers' => Table::make(Customer::query())->paginate(false)->withColumns([Text::make('Name')]),
     ]));
 
     $this->get('/customers', ['X-Inertia' => 'true'])
@@ -110,6 +113,7 @@ it('keeps the column definitions when the source is empty', function () {
                 ['id' => 'col-01-name', 'title' => 'Name'],
             ],
             'rows' => [],
+            'pagination' => null,
         ]);
 });
 

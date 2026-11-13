@@ -1,5 +1,5 @@
 <template>
-  <DataTableRoot :table="table" v-slot="{ columns, rows }">
+  <DataTableRoot :table="table" :reload-only="reloadOnly" v-slot="{ columns, rows }">
     <table class="w-full border-collapse text-left text-sm" v-bind="$attrs">
       <thead>
         <tr>
@@ -12,6 +12,7 @@
         </DataTableRow>
       </tbody>
     </table>
+    <DataTablePagination />
   </DataTableRoot>
 </template>
 
@@ -20,6 +21,7 @@ import { DataTableRoot, type DataTableRootProps } from '@merq/datatable/vue'
 import DataTableCell from './DataTableCell.vue'
 import DataTableHeading from './DataTableHeading.vue'
 import DataTableRow from './DataTableRow.vue'
+import DataTablePagination from './DataTablePagination.vue'
 
 defineProps<DataTableRootProps<ResourceValue>>()
 

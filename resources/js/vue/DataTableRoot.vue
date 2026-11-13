@@ -7,6 +7,7 @@ import { tableFeatures, useTable } from '@tanstack/vue-table'
 import { computed } from 'vue'
 import type { DataTableCellValue, DataTableRowValue } from '../shared'
 import { provideDataTableContext } from './context'
+import { useFilter } from './useFilter'
 import type { DataTableRootProps, DataTableRootSlotProps } from './types'
 
 defineOptions({ inheritAttrs: false })
@@ -57,7 +58,30 @@ const columns = computed(() =>
  */
 const rows = computed(() => table.getRowModel().rows.map((row) => row.original))
 
+/**
+ * Pagination state and scoped Inertia filter navigation.
+ */
+const pagination = computed(() => props.table.pagination)
+const filter = useFilter(() => ({
+  only: props.reloadOnly,
+  resetQuery: pagination.value ? [pagination.value.pageName] : [],
+}))
+
+/**
+ * Apply an allowed page size through the table's filter.
+ */
+function setPerPage(value: number) {
+  const current = pagination.value
+
+  if (current && current.perPageOptions.includes(value)) {
+    filter.update({ [current.perPageName]: value })
+  }
+}
+
 provideDataTableContext({
+  pagination,
+  visit: filter.visit,
+  setPerPage,
   getCells: (key) =>
     table
       .getRow(String(key))

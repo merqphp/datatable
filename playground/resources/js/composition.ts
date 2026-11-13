@@ -2,6 +2,7 @@
  * Shared table used to exercise custom elements and component composition.
  */
 export const compositionTable = {
+  pagination: null,
   columns: [{ id: 'name', title: 'Name' }],
   rows: [
     {

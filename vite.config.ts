@@ -30,7 +30,7 @@ export default defineConfig({
     },
     plugins: [
       esmExternalRequirePlugin({
-        external: [/^react(?:\/|$)/, /^react-dom(?:\/|$)/, /^vue(?:\/|$)/],
+        external: [/^react(?:\/|$)/, /^react-dom(?:\/|$)/, /^vue(?:\/|$)/, /^@inertiajs\//],
       }),
       vue({ isProduction: true }),
     ],

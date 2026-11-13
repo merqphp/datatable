@@ -31,10 +31,18 @@
         "typecheck:playground": "pnpm --dir playground typecheck"
     },
     "peerDependencies": {
+        "@inertiajs/react": "^3.0.0",
+        "@inertiajs/vue3": "^3.0.0",
         "react": "^19.0.0",
         "vue": "^3.5.0"
     },
     "peerDependenciesMeta": {
+        "@inertiajs/react": {
+            "optional": true
+        },
+        "@inertiajs/vue3": {
+            "optional": true
+        },
         "react": {
             "optional": true
         },
@@ -44,6 +52,9 @@
     },
     "devDependencies": {
         "@base-ui/react": "^1.9.0",
+        "@inertiajs/core": "^3.11.0",
+        "@inertiajs/react": "^3.11.0",
+        "@inertiajs/vue3": "^3.11.0",
         "@tanstack/react-table": "^9.3.1",
         "@tanstack/vue-table": "^9.3.1",
         "@types/node": "^24.0.0",

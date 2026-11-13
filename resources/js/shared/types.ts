@@ -54,6 +54,76 @@ export interface DataTableRowValue<ResourceValue = unknown> {
 }
 
 /**
+ * Server pagination state and navigation for a table.
+ */
+export interface DataTablePaginationValue {
+  /**
+   * Current page, starting at one.
+   */
+  currentPage: number
+
+  /**
+   * Last available page, including an empty first page.
+   */
+  lastPage: number
+
+  /**
+   * Current number of rows per page.
+   */
+  perPage: number
+
+  /**
+   * Allowed page sizes, or an empty list for a fixed size.
+   */
+  perPageOptions: number[]
+
+  /**
+   * Total number of rows in the source.
+   */
+  total: number
+
+  /**
+   * First displayed row number, or null for an empty source.
+   */
+  from: number | null
+
+  /**
+   * Last displayed row number, or null for an empty source.
+   */
+  to: number | null
+
+  /**
+   * Query parameter identifying the current page.
+   */
+  pageName: string
+
+  /**
+   * Query parameter selecting the page size.
+   */
+  perPageName: string
+
+  /**
+   * URL of the first page when it precedes the current page.
+   */
+  firstPageUrl: string | null
+
+  /**
+   * URL of the previous page when available.
+   */
+  prevPageUrl: string | null
+
+  /**
+   * URL of the next page when available.
+   */
+  nextPageUrl: string | null
+
+  /**
+   * URL of the last page when it follows the current page.
+   */
+  lastPageUrl: string | null
+}
+
+/**
  * Table data provided by the backend through Inertia.
  */
 export interface DataTableValue<ResourceValue = unknown> {
@@ -66,6 +136,11 @@ export interface DataTableValue<ResourceValue = unknown> {
    * Rows retrieved from the table source.
    */
   rows: DataTableRowValue<ResourceValue>[]
+
+  /**
+   * Server pagination, or null when pagination is disabled or unavailable.
+   */
+  pagination: DataTablePaginationValue | null
 }
 
 /**
@@ -96,4 +171,49 @@ export interface DataTableRowSlotProps<ResourceValue = unknown> {
    * Cells in the current column order.
    */
   cells: DataTableCellValue[]
+}
+
+/**
+ * Server state available to the pagination layout.
+ */
+export interface DataTablePaginationSlotProps {
+  /**
+   * Pagination received from the latest Inertia response.
+   */
+  pagination: DataTablePaginationValue
+}
+
+/**
+ * Page size and actions available to a consumer's control.
+ */
+export interface DataTablePerPageSlotProps {
+  /**
+   * Current number of rows per page.
+   */
+  modelValue: number
+
+  /**
+   * Page sizes allowed by the backend.
+   */
+  options: number[]
+
+  /**
+   * Apply a page size through Inertia and reset the page.
+   */
+  update: (value: number) => void
+}
+
+/**
+ * Availability and destination of a pagination control.
+ */
+export interface DataTablePaginationButtonSlotProps extends DataTablePaginationSlotProps {
+  /**
+   * Server-provided destination, or null at the pagination boundary.
+   */
+  href: string | null
+
+  /**
+   * Whether the destination is unavailable.
+   */
+  disabled: boolean
 }

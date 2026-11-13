@@ -7,6 +7,9 @@ import type {
   DataTableRowSlotProps,
   DataTableRowValue,
   DataTableValue,
+  DataTablePaginationSlotProps,
+  DataTablePaginationButtonSlotProps,
+  DataTablePerPageSlotProps,
 } from '../shared'
 
 /**
@@ -49,9 +52,50 @@ export interface DataTableRootProps<ResourceValue = unknown> {
   table: DataTableValue<ResourceValue>
 
   /**
+   * Inertia properties to reload, or all properties when omitted.
+   */
+  reloadOnly?: string[]
+
+  /**
    * Table layout with access to the resolved columns and rows.
    */
   children: ReactNode | ((props: DataTableRootSlotProps<ResourceValue>) => ReactNode)
+}
+
+/**
+ * Pagination layout, rendering options and native navigation attributes.
+ */
+export interface DataTablePaginationProps extends Omit<
+  useRender.ComponentProps<'nav'>,
+  'children'
+> {
+  /**
+   * Pagination layout with access to the server state.
+   */
+  children: ReactNode | ((props: DataTablePaginationSlotProps) => ReactNode)
+}
+
+/**
+ * Rendering options and native attributes for a pagination button.
+ */
+export interface DataTablePaginationButtonProps extends Omit<
+  useRender.ComponentProps<'button'>,
+  'children'
+> {
+  /**
+   * Button content with access to the destination and availability.
+   */
+  children: ReactNode | ((props: DataTablePaginationButtonSlotProps) => ReactNode)
+}
+
+/**
+ * Consumer layout for choosing the number of rows per page.
+ */
+export interface DataTablePerPageProps {
+  /**
+   * Page size control receiving its value, options and update action.
+   */
+  children: (props: DataTablePerPageSlotProps) => ReactNode
 }
 
 /**

@@ -6,6 +6,9 @@ export { DataTableRow } from './DataTableRow'
 export { DataTableCell } from './DataTableCell'
 export { DataTableCellContent } from './DataTableCellContent'
 export { DataTableProvider } from './DataTableProvider'
+export { DataTablePagination } from './DataTablePagination'
+export { DataTablePaginationPrevious, DataTablePaginationNext } from './DataTablePaginationButton'
+export { DataTablePerPage } from './DataTablePerPage'
 
 export type {
   DataTableRootProps,
@@ -15,4 +18,7 @@ export type {
   DataTableCellContentProps,
   DataTableComponents,
   DataTableProviderProps,
+  DataTablePaginationProps,
+  DataTablePaginationButtonProps,
+  DataTablePerPageProps,
 } from './types'

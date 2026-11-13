@@ -42,6 +42,26 @@ export interface DataTableRootProps<ResourceValue = unknown> {
    * Table definition and rows received from the backend.
    */
   table: DataTableValue<ResourceValue>
+
+  /**
+   * Inertia properties to reload, or all properties when omitted.
+   */
+  reloadOnly?: string[]
+}
+
+/**
+ * Rendering options for the pagination container.
+ */
+export interface DataTablePaginationProps extends PrimitiveProps {}
+
+/**
+ * Rendering options for a pagination button.
+ */
+export interface DataTablePaginationButtonProps extends PrimitiveProps {
+  /**
+   * Disable navigation even when a destination is available.
+   */
+  disabled?: boolean
 }
 
 /**

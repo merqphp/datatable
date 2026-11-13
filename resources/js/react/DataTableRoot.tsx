@@ -2,6 +2,7 @@ import { tableFeatures, useTable } from '@tanstack/react-table'
 import { useMemo } from 'react'
 import type { DataTableCellValue, DataTableRowValue } from '../shared'
 import { DataTableContext } from './context'
+import { useFilter } from './useFilter'
 import type { DataTableRootProps } from './types'
 
 /**
@@ -14,6 +15,7 @@ const features = tableFeatures({})
  */
 export function DataTableRoot<ResourceValue = unknown>({
   table: value,
+  reloadOnly,
   children,
 }: DataTableRootProps<ResourceValue>) {
   /**
@@ -57,9 +59,30 @@ export function DataTableRoot<ResourceValue = unknown>({
    */
   const rows = table.getRowModel().rows.map((row) => row.original)
 
+  /**
+   * Pagination state and scoped Inertia filter navigation.
+   */
+  const pagination = value.pagination
+  const filter = useFilter({
+    only: reloadOnly,
+    resetQuery: pagination ? [pagination.pageName] : [],
+  })
+
+  /**
+   * Apply an allowed page size through the table's filter.
+   */
+  function setPerPage(value: number) {
+    if (pagination && pagination.perPageOptions.includes(value)) {
+      filter.update({ [pagination.perPageName]: value })
+    }
+  }
+
   return (
     <DataTableContext
       value={{
+        pagination,
+        visit: filter.visit,
+        setPerPage,
         getCells: (key) =>
           table
             .getRow(String(key))

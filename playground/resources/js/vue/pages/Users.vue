@@ -18,7 +18,7 @@
       </button>
     </div>
 
-    <DataTable :table="users" aria-label="Users" />
+    <DataTable :table="users" :reload-only="['users']" aria-label="Users" />
 
     <p v-if="users.rows.length === 0" class="text-sm text-gray-500">No users yet.</p>
   </main>

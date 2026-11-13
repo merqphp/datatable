@@ -16,5 +16,9 @@ class SourceResult
          * Items retrieved from the data source.
          */
         public readonly Collection $items,
+        /**
+         * Pagination metadata when the source returned a page of items.
+         */
+        public readonly ?Pagination $pagination = null,
     ) {}
 }

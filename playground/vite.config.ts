@@ -30,6 +30,6 @@ export default defineConfig({
         new URL('./vendor/merq/datatable/dist/vue/index.js', import.meta.url),
       ),
     },
-    dedupe: ['react', 'react-dom', 'vue'],
+    dedupe: ['react', 'react-dom', 'vue', '@inertiajs/core', '@inertiajs/react', '@inertiajs/vue3'],
   },
 })
